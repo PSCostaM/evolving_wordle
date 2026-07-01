@@ -1,0 +1,100 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background-color: theme('colors.lab.bg');
+  color: theme('colors.lab.text');
+  font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica,
+    Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Ambient grid + glow background for the "lab" feel */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(900px 500px at 15% -10%, rgba(34, 211, 238, 0.12), transparent 60%),
+    radial-gradient(800px 500px at 100% 0%, rgba(167, 139, 250, 0.12), transparent 55%),
+    linear-gradient(theme('colors.lab.bg'), theme('colors.lab.bg'));
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  opacity: 0.35;
+  background-image:
+    linear-gradient(rgba(30, 43, 69, 0.35) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(30, 43, 69, 0.35) 1px, transparent 1px);
+  background-size: 40px 40px;
+  mask-image: radial-gradient(ellipse at 50% 0%, black, transparent 80%);
+}
+
+/* Light-mode fallback (the app defaults to dark, but tiles must still read well) */
+html:not(.dark) body {
+  background-color: #f4f6fb;
+  color: #0f1729;
+}
+
+@layer components {
+  .lab-card {
+    @apply rounded-2xl border border-lab-border bg-lab-panel/80 backdrop-blur-sm shadow-lg;
+  }
+
+  .lab-heading {
+    @apply text-xs font-semibold uppercase tracking-[0.2em] text-lab-muted;
+  }
+
+  .lab-btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg border border-lab-border
+      bg-lab-panel2 px-3 py-2 text-sm font-medium text-lab-text transition
+      hover:border-neon-cyan/60 hover:text-white disabled:cursor-not-allowed
+      disabled:opacity-40;
+  }
+
+  .lab-btn-primary {
+    @apply border-transparent bg-gradient-to-r from-neon-cyan to-neon-green text-slate-950
+      shadow-neon hover:brightness-110 hover:text-slate-950;
+  }
+
+  .lab-input {
+    @apply w-full rounded-lg border border-lab-border bg-lab-bg/60 px-3 py-2 text-sm
+      text-lab-text outline-none transition focus:border-neon-cyan/70
+      focus:ring-1 focus:ring-neon-cyan/40;
+  }
+
+  .lab-chip {
+    @apply inline-flex items-center gap-1 rounded-full border border-lab-border
+      bg-lab-panel2 px-2.5 py-0.5 text-xs font-medium text-lab-muted;
+  }
+}
+
+/* Thin, themed scrollbars */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: theme('colors.lab.border') transparent;
+}
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+*::-webkit-scrollbar-thumb {
+  background: theme('colors.lab.border');
+  border-radius: 8px;
+}

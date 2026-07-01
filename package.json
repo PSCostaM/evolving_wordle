@@ -1,0 +1,23 @@
+{
+  "name": "wordle-evolution-ai",
+  "private": true,
+  "version": "2.0.0",
+  "description": "Hybrid Wordle Evolution Lab — a Python genetic-algorithm trainer with a Vite/React/TypeScript visualization dashboard.",
+  "workspaces": [
+    "apps/*"
+  ],
+  "scripts": {
+    "dev": "concurrently -n web,trainer -c cyan,magenta \"pnpm dev:web\" \"pnpm dev:trainer\"",
+    "dev:web": "pnpm --dir apps/web dev",
+    "dev:trainer": "cd trainer && python -m uvicorn wordle_evolution.server.main:app --reload --host 0.0.0.0 --port 8000",
+    "build": "pnpm --dir apps/web build",
+    "preview": "pnpm --dir apps/web preview",
+    "test": "pnpm test:web && pnpm test:trainer",
+    "test:web": "pnpm --dir apps/web test",
+    "test:trainer": "cd trainer && pytest",
+    "train": "cd trainer && python -m wordle_evolution.experiments.run_experiment"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0"
+  }
+}
